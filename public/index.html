@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Ingeniero en Informática</title>
-    <style>
-        /* Reset y Base */
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/favicon.jpeg">
+    <style> 
         * {
             margin: 0;
             padding: 0;
@@ -14,27 +15,48 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: #ffffff;
             background-color: #000;
-            line-height: 1.6;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
         /* Background Fijo */
         .fixed-bg {
             position: fixed;
-            top: 0;
+            top: 5%;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('tu-imagen-fondo.jpg'); /* Reemplazar con tu archivo */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            height: 100vh;
+            background: linear-gradient(90deg, #000 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%), 
+                        url('images/max-fondo.png') no-repeat right center;
+            background-size: contain;
             z-index: -1;
         }
+        /* --- Estilos base del Nav --- */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
 
-        /* Navegación */
+        /* Escondemos el menú hamburguesa en desktop */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1000;
+        }
+
+        .menu-toggle .bar {
+            width: 30px;
+            height: 2px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
         nav {
             position: fixed;
             top: 0;
@@ -42,84 +64,484 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 50px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 80px;
+            z-index: 100;
+        }
+        .logo a {
+        transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .logo img {
-            height: 40px; /* Ajustar según tu logo */
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        .logo a:hover {
+            opacity: 0.8;
+            transform: scale(1.05); /* Un leve aumento para indicar que es clickeable */
         }
+        .logo img { height: 50px; }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 30px;
-        }
+        nav ul { display: flex; list-style: none; gap: 40px; }
 
         nav ul li a {
             color: #fff;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-            opacity: 0.7;
-        }
-
-        nav ul li a:hover {
-            opacity: 1;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
-
-        /* Secciones */
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 100px 20px;
-            /* Sombra suave entre secciones para dar profundidad */
-            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+            letter-spacing: 2px;
+            opacity: 0.8;
         }
 
         /* Hero Section */
         #home {
-            text-align: center;
-            background: transparent;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
         }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
+        .hero-content { max-width: 60%; text-align: left; }
+
+        .main-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.8rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 35px;
+        }
+
+        .btn-work {
+            display: inline-block;
+            padding: 12px 25px;
+            border: 2px solid #fff;
+            color: #fff;
+            text-decoration: none;
             font-weight: 700;
-            letter-spacing: -1px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.3s;
         }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            color: #ccc;
-            max-width: 600px;
-            margin: 0 auto;
+        /* SECCIÓN PORTFOLIO FULL WIDTH */
+        #portfolio {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9); /* Fondo sólido para legibilidad */
+            padding: 20px 10%;
+            display: block; /* Asegura que no sea flex */
         }
 
-        /* Estilo para las secciones vacías */
-        .placeholder {
-            border-top: 1px solid rgba(255,255,255,0.05);
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
         }
 
-        h2 {
-            font-size: 2.5rem;
+        .portfolio-category {
+            width: 100%;
+            margin-bottom: 120px;
+            clear: both;
+        }
+
+        .category-subtitle {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 50px;
+            border-left: 4px solid #fff;
+            padding-left: 20px;
+        }
+
+        .web-projects-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 100px;
+        }
+
+        /* Casos de estudio en Grid */
+        .case-study {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr; /* Más espacio para las imágenes */
+            gap: 60px;
+            align-items: start;
+            width: 100%;
+        }
+
+        .case-info h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3rem;
             margin-bottom: 20px;
-            text-shadow: 0 10px 20px rgba(0,0,0,1);
+            text-transform: uppercase;
         }
+
+        .case-info p {
+            color: #ccc;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .tech-tags {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .tech-tags li {
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-transform: uppercase;
+        }
+
+        .case-visuals {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .case-visuals img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            filter: grayscale(20%);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .case-visuals img:hover {
+            filter: grayscale(0%);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Secciones de relleno */
+        #services, #contact {
+            padding: 20px 10%;
+            background: #000;
+            min-height: 60vh;
+        }
+
+        .case-info h4 a {
+        text-decoration: none;
+        color: inherit; /* Mantiene el blanco que ya tienes */
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+    }
+
+    /* El icono de flecha */
+    .case-info h4 a::after {
+        content: '↗'; /* Icono de flecha hacia afuera */
+        font-family: Arial, sans-serif;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.3); /* Color tenue por defecto */
+        transition: all 0.3s ease;
+    }
+
+    /* Efecto al pasar el mouse */
+    .case-info h4 a:hover {
+        color: #888; /* El texto se aclara/oscurece un poco */
+    }
+
+    .case-info h4 a:hover::after {
+        color: #fff; /* La flecha se ilumina */
+        transform: translate(3px, -3px); /* Pequeño movimiento animado */
+    }
+    .systems-disclaimer {
+        color: #777;
+        font-size: 0.95rem;
+        max-width: 700px;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+    .systems-experience-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .system-entry {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        padding: 40px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        transition: background 0.3s ease;
+    }
+
+    .system-entry:hover {
+        background: rgba(255,255,255,0.02);
+    }
+
+    .location-tag {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #555;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .system-client h4 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .system-role {
+        font-size: 0.8rem;
+        color: #888;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .system-details p {
+        font-size: 1rem;
+        color: #ccc;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .system-stack {
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .service-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 50px 40px;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .service-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-10px);
+    }
+
+    .service-icon {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+
+    .service-card h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+
+    .service-card p {
+        color: #888;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .service-list {
+        list-style: none;
+        margin-top: auto;
+    }
+
+    .service-list li {
+        color: #ccc;
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .service-list li::before {
+        content: '';
+        width: 5px;
+        height: 1px;
+        background: #fff;
+    }
+    #contact {
+        padding: 150px 10%;
+        background: #000;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        width: 100%;
+    }
+
+    .contact-container {
+        max-width: 900px;
+        width: 100%;
+    }
+
+    .contact-lead {
+        font-size: 1.5rem;
+        color: #888;
+        line-height: 1.5;
+        margin-bottom: 60px;
+    }
+
+    .contact-lead strong {
+        color: #fff;
+    }
+
+    .contact-methods {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .contact-btn.primary {
+        font-family: 'Oswald', sans-serif;
+        font-size: 2.5rem;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        border-bottom: 2px solid rgba(255,255,255,0.2);
+        padding-bottom: 10px;
+        transition: all 0.4s ease;
+    }
+
+    .contact-btn.primary:hover {
+        border-bottom-color: #fff;
+        letter-spacing: 2px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 30px;
+    }
+
+    .social-links a {
+        color: #666;
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        transition: 0.3s;
+    }
+
+    .social-links a:hover {
+        color: #fff;
+    }
+
+    .location-status {
+        margin-top: 100px;
+        font-size: 0.7rem;
+        color: #444;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #00ff00;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #00ff00;
+        display: inline-block;
+    }
+    /* --- Responsive (Mobile) --- */
+    @media (max-width: 900px) {
+        .menu-toggle {
+            display: flex;
+        }
+
+        .nav-list {
+            position: fixed;
+            right: -100%; /* Escondido por defecto */
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+        }
+
+        .nav-list.active {
+            right: 0;
+        }
+
+        /* Animación de la hamburguesa a X */
+        .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+
+        .service-card {
+            padding: 30px;
+        }
+
+        .system-entry {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 30px 0;
+        }
+
+        .fixed-bg {
+            height: 50vh;
+        }
+
+        .hero-content {
+            max-width: 100%;
+        }
+        #home {
+            min-height: 70vh;
+        }
+        .main-title {
+            font-size: 2.5rem;
+        }
+        .btn-work {
+            padding: 12px 20px;
+            font-size: 0.8rem;
+        }
+
+        .case-study {
+            grid-template-columns: 1fr;
+        }
+        nav { 
+            padding: 20px 40px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px); 
+        }
+        .contact-btn.primary { font-size: 1.8rem; }
+        .social-links { flex-direction: column; gap: 15px; }
+    }   
     </style>
 </head>
 <body>
@@ -128,34 +550,268 @@
 
     <nav>
         <div class="logo">
-            <img src="logo-derecha.png" alt="Logo">
+            <a href="#home" style="display: block; line-height: 0;">
+                <img src="images/max-logo.png" alt="Logo">
+            </a>
         </div>
-        <ul>
-            <li><a href="#home">Inicio</a></li>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="#home">Home</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#services">Servicios</a></li>
+            <li><a href="#contact">Contacto</a></li>
         </ul>
     </nav>
 
-    <section id="home">
-        <div class="hero-content">
-            <h1>Ingeniero en Informática</h1>
-            <p>Experiencia creando sistemas web internacionales.</p>
-        </div>
-    </section>
+    <main>
+        <section id="home">
+            <div class="hero-content">
+                <h1 class="main-title">
+                    Desarrollo de Sistemas de alto rendimiento<br>
+                    y Experiencias Web para potenciar tu crecimiento.
+                </h1>
+                <a href="#portfolio" class="btn-work">Ver mi trabajo</a>
+            </div>
+        </section>
 
-    <section id="portfolio" class="placeholder">
-        <h2>Portfolio</h2>
-    </section>
+        <section id="portfolio">
+            <h2 class="section-title">Portfolio</h2>
+            
+            <div class="portfolio-category">
+                <h3 class="category-subtitle">Ingeniería de Sistemas & Arquitectura</h3>
+                <p class="systems-disclaimer">
+                    Experiencia como <strong>Contractor Internacional</strong>. Especializado en arquitecturas de 
+                    micro-frontends, modernización de sistemas legacy y optimización de plataformas críticas bajo estándares globales.
+                </p>
 
-    <section id="servicios" class="placeholder">
-        <h2>Servicios</h2>
-    </section>
+                <div class="systems-experience-grid">
+                    
+                    <article class="system-entry">
+                        <div class="system-client">
+                            <span class="location-tag">Argentina</span>
+                            <h4>PSI (UNC)</h4>
+                            <span class="system-role">Full-Stack Software Engineer</span>
+                        </div>
+                        <div class="system-details">
+                            <p>Migración de sistemas electorales hacia una arquitectura de <strong>Micro-frontends</strong> (Module Federation), permitiendo escalabilidad independiente y despliegue modular.</p>
+                            <div class="system-stack">NodeJS • VueJS • Micro-frontends • PostgreSQL</div>
+                        </div>
+                    </article>
 
-    <section id="contacto" class="placeholder">
-        <h2>Contacto</h2>
-    </section>
+                    <article class="system-entry">
+                        <div class="system-client">
+                            <span class="location-tag">Londres, Reino Unido</span>
+                            <h4>Pass The Keys</h4>
+                            <span class="system-role">Front End Engineer</span>
+                        </div>
+                        <div class="system-details">
+                            <p>Desarrollo de <strong>PWA</strong> con accesibilidad WCAG AA. Optimización de módulos SaaS reduciendo el tiempo de carga inicial en un 25%.</p>
+                            <div class="system-stack">Angular • Ionic • Azure DevOps • RxJS</div>
+                        </div>
+                    </article>
 
+                    <article class="system-entry">
+                        <div class="system-client">
+                            <span class="location-tag">Holanda</span>
+                            <h4>CloudCoding</h4>
+                            <span class="system-role">Front End Engineer</span>
+                        </div>
+                        <div class="system-details">
+                            <p>Desarrollo de aplicaciones robustas en <strong>React Native</strong> para el sector salud y modernización de infraestructuras frontend legacy.</p>
+                            <div class="system-stack">NextJS • React Native • Mobile Engineering</div>
+                        </div>
+                    </article>
+
+                    <article class="system-entry">
+                        <div class="system-client">
+                            <span class="location-tag">San Francisco, USA</span>
+                            <h4>Golden Hippo</h4>
+                            <span class="system-role">Front End Engineer</span>
+                        </div>
+                        <div class="system-details">
+                            <p>Ingeniería para plataformas de alto tráfico y sales funnels complejos en ecosistemas de despliegue continuo (AWS).</p>
+                            <div class="system-stack">Angular • AWS S3 • Agile Kanban</div>
+                        </div>
+                    </article>
+
+                    <article class="system-entry">
+                        <div class="system-client">
+                            <span class="location-tag">USA / Argentina</span>
+                            <h4>Avaya & Aivo</h4>
+                            <span class="system-role">Front End Engineer</span>
+                        </div>
+                        <div class="system-details">
+                            <p>Implementación de gestión de estado con <strong>NgRx</strong> y optimización de SPAs administrativas de gran escala.</p>
+                            <div class="system-stack">NgRx • Cypress • Scalable State Management</div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+
+            <div class="portfolio-category">
+                <h3 class="category-subtitle">Desarrollo Web & Crecimiento Digital</h3>
+                
+                <div class="web-projects-container">
+                    
+                    <article class="case-study">
+                        <div class="case-info">
+                            <h4>
+                                <a href="https://flyagro.com" target="_blank" rel="noopener noreferrer">
+                                    FlyAgro
+                                </a>
+                            </h4>
+                            <p>
+                                Digitalización y escalabilidad para el sector agrotech. Implementamos una infraestructura web 
+                                diseñada para la gestión de operaciones agrícolas con drones y servicios aéreos de precisión, 
+                                optimizando la conexión entre tecnología de campo y necesidades productivas.
+                            </p>
+                            <ul class="tech-tags">
+                                <li>Cloud Architecture</li>
+                                <li>Precision Agriculture</li>
+                                <li>UI/UX Strategy</li>
+                                <li>SEO Optimizada</li>
+                            </ul>
+                        </div>
+                        <div class="case-visuals">
+                            <img src="images/flyagro-1.png" alt="FlyAgro Drones Preview 1">
+                            <img src="images/flyagro-2.png" alt="FlyAgro Drones Preview 2">
+                        </div>
+                    </article>
+
+                    <article class="case-study">
+                        <div class="case-info">
+                            <h4>
+                                <a href="https://capybot.com" target="_blank" rel="noopener noreferrer">
+                                    Capybot
+                                </a>
+                            </h4>
+                            <p>Diseño y desarrollo de una plataforma de alta conversión para soluciones de automatización. Optimizamos el túnel de ventas digital mediante una arquitectura orientada al crecimiento (Growth-ready), transformando procesos complejos en experiencias de usuario simples y efectivas.</p>
+                            <ul class="tech-tags">
+                                <li>Automation UX</li>
+                                <li>Modern Stack</li>
+                                <li>Conversion Focus</li>
+                            </ul>
+                        </div>
+                        <div class="case-visuals">
+                            <img src="images/capybot-1.png" alt="Capybot 1">
+                            <img src="images/capybot-2.png" alt="Capybot 2">
+                        </div>
+                    </article>
+
+                    <article class="case-study">
+                        <div class="case-info">
+                            <h4>
+                                <a href="https://upgradecomunicacion.com" target="_blank" rel="noopener noreferrer">
+                                    Upgrade Comunicación
+                                </a>
+                            </h4>
+                            <p>Rediseño integral de ecosistema web para agencia de comunicación. Foco en performance y velocidad de carga global.</p>
+                            <ul class="tech-tags">
+                                <li>High Performance</li>
+                                <li>Responsive Design</li>
+                                <li>Global Scale</li>
+                            </ul>
+                        </div>
+                        <div class="case-visuals">
+                            <img src="images/upgrade-1.png" alt="Upgrade 1">
+                            <img src="images/upgrade-2.png" alt="Upgrade 2">
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+        <section id="services">
+            <h2 class="section-title">Servicios</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">01</div>
+                    <h3>Sistemas & Software Empresarial</h3>
+                    <p>Diseño de arquitecturas escalables para procesos complejos. Especializado en la transición de sistemas legacy a arquitecturas modernas de microservicios y micro-frontends.</p>
+                    <ul class="service-list">
+                        <li>Arquitectura de Micro-frontends</li>
+                        <li>Sistemas de Gestión (ERP/CRM)</li>
+                        <li>Optimización de Performance Crítica</li>
+                        <li>Integración de APIs & Cloud</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">02</div>
+                    <h3>Desarrollo Web de Alto Impacto</h3>
+                    <p>Creación de experiencias digitales orientadas a la conversión y el crecimiento. Sitios web rápidos, accesibles y optimizados para mercados internacionales.</p>
+                    <ul class="service-list">
+                        <li>Landing Pages de Alta Conversión</li>
+                        <li>E-commerce & Plataformas SaaS</li>
+                        <li>SEO Técnico & Web Vitals</li>
+                        <li>PWAs (Progressive Web Apps)</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">03</div>
+                    <h3>Consultoría & Liderazgo Técnico</h3>
+                    <p>Asesoramiento estratégico para startups y empresas en crecimiento. Auditoría de código, mentoría de equipos y definición de stacks tecnológicos.</p>
+                    <ul class="service-list">
+                        <li>Auditoría de Frontend & UX</li>
+                        <li>Estrategia de Crecimiento Digital</li>
+                        <li>Mentoría de Desarrolladores Junior</li>
+                        <li>Selección de Stacks Escalables</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section id="contact">
+            <div class="contact-container">
+                <h2 class="section-title">Todo listo para escalar?</h2>
+                <p class="contact-lead">
+                    Estoy disponible para proyectos de <strong>Sistemas Empresariales</strong> y 
+                    <strong>Desarrollo Web</strong> de alta complejidad. Hablemos sobre cómo 
+                    <strong>potenciar tu negocio</strong>.
+                </p>
+
+                <div class="contact-methods">
+                    <a href="mailto:tu-email@correo.com" class="contact-btn primary">
+                        Enviar un Mail <span>↗</span>
+                    </a>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/eneas-forconi/" target="_blank">LinkedIn</a>
+                        <a href="https://github.com/eforconi" target="_blank">GitHub</a>
+                        <a href="https://wa.me/5493517890793" target="_blank">WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="location-status">
+                    <span class="status-dot"></span> Disponible para nuevos desafíos • Córdoba, Argentina & Remoto
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const menu = document.querySelector('#mobile-menu');
+        const menuLinks = document.querySelector('.nav-list');
+
+        // Función para alternar el menú
+        const mobileMenu = () => {
+            menu.classList.toggle('is-active');
+            menuLinks.classList.toggle('active');
+        };
+
+        menu.addEventListener('click', mobileMenu);
+
+        // Cerrar el menú al hacer click en un link
+        document.querySelectorAll('.nav-list li a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('is-active');
+                menuLinks.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
